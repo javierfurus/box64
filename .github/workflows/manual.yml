@@ -90,7 +90,7 @@ jobs:
           cd build
           cmake .. -DCMAKE_C_COMPILER=${{ env.BOX64_COMPILER }} ${{ env.BOX64_PLATFORM_MARCRO }}\
                    -DCMAKE_BUILD_TYPE=${{ github.event.inputs.build_type }}\
-                   -DARM_DYNAREC: BOOL=${{ github.event.inputs.dynarec }}\
+                   -DARM_DYNAREC:BOOL=${{ github.event.inputs.dynarec }}\
                    -DBOX32:BOOL=${{ github.event.inputs.box32 }}\
                    -DHAVE_TRACE:BOOL=${{ github.event.inputs.trace }}\
                    -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON
