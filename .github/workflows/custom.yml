@@ -1,0 +1,134 @@
+### Manual build Box64 with Github Action
+name: Manual build
+
+on:
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: 'Platform'
+        required: true
+        default: 'X64'
+        type: choice
+        options:
+        - X64
+        - GENERIC_ARM
+        - RK3399
+        - RK3588
+        - RPI3ARM64
+        - RPI4ARM64
+        - RPI5ARM64
+        - SD845
+        - SD888
+        - M1
+        - PHYTIUM
+        - ADLINK
+        - ARM64
+        - ANDROID
+        - ANDROID_GLIBC
+        - LARCH64
+        - RV64
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Environment preparation
+        run: |
+          if [[ "${{ github.event.inputs.platform }}" == "RK3399" ]]; then
+            echo BOX64_PLATFORM_MARCRO="-DRK3399=1 -DARM_DYNAREC=1" >> $GITHUB_ENV
+            echo BOX64_COMPILER="aarch64-linux-gnu-gcc" >> $GITHUB_ENV
+            sudo apt-get update
+            sudo apt-get -y install git gcc-aarch64-linux-gnu cmake make python3
+          elif [[ "${{ github.event.inputs.platform }}" == "RK3588" ]]; then
+            echo BOX64_PLATFORM_MARCRO="-DRK3588=1 -DARM_DYNAREC=1" >> $GITHUB_ENV
+            echo BOX64_COMPILER="aarch64-linux-gnu-gcc" >> $GITHUB_ENV
+            sudo apt-get update
+            sudo apt-get -y install git gcc-aarch64-linux-gnu cmake make python3
+          elif [[ "${{ github.event.inputs.platform }}" == "RPI3ARM64" ]]; then
+            echo BOX64_PLATFORM_MARCRO="-DRPI3ARM64=1 -DARM_DYNAREC=1" >> $GITHUB_ENV
+            echo BOX64_COMPILER="aarch64-linux-gnu-gcc" >> $GITHUB_ENV
+            sudo apt-get update
+            sudo apt-get -y install git gcc-aarch64-linux-gnu cmake make python3
+          elif [[ "${{ github.event.inputs.platform }}" == "RPI4ARM64" ]]; then
+            echo BOX64_PLATFORM_MARCRO="-DRPI4ARM64=1 -DARM_DYNAREC=1" >> $GITHUB_ENV
+            echo BOX64_COMPILER="aarch64-linux-gnu-gcc" >> $GITHUB_ENV
+            sudo apt-get update
+            sudo apt-get -y install git gcc-aarch64-linux-gnu cmake make python3
+          elif [[ "${{ github.event.inputs.platform }}" == "RPI5ARM64" ]]; then
+            echo BOX64_PLATFORM_MARCRO="-DRPI5ARM64=1 -DARM_DYNAREC=1" >> $GITHUB_ENV
+            echo BOX64_COMPILER="aarch64-linux-gnu-gcc" >> $GITHUB_ENV
+            sudo apt-get update
+            sudo apt-get -y install git gcc-aarch64-linux-gnu cmake make python3
+          elif [[ "${{ github.event.inputs.platform }}" == "SD845" ]]; then
+            echo BOX64_PLATFORM_MARCRO="-DSD845=1 -DARM_DYNAREC=1" >> $GITHUB_ENV
+            echo BOX64_COMPILER="aarch64-linux-gnu-gcc" >> $GITHUB_ENV
+            sudo apt-get update
+            sudo apt-get -y install git gcc-aarch64-linux-gnu cmake make python3
+          elif [[ "${{ github.event.inputs.platform }}" == "SD888" ]]; then
+            echo BOX64_PLATFORM_MARCRO="-DSD888=1 -DARM_DYNAREC=1" >> $GITHUB_ENV
+            echo BOX64_COMPILER="aarch64-linux-gnu-gcc" >> $GITHUB_ENV
+            sudo apt-get update
+            sudo apt-get -y install git gcc-aarch64-linux-gnu cmake make python3
+          elif [[ "${{ github.event.inputs.platform }}" == "M1" ]]; then
+            echo BOX64_PLATFORM_MARCRO="-DM1=1 -DARM_DYNAREC=1" >> $GITHUB_ENV
+            echo BOX64_COMPILER="aarch64-linux-gnu-gcc" >> $GITHUB_ENV
+            sudo apt-get update
+            sudo apt-get -y install git gcc-aarch64-linux-gnu cmake make python3
+          elif [[ "${{ github.event.inputs.platform }}" == "PHYTIUM" ]]; then
+            echo BOX64_PLATFORM_MARCRO="-DPHYTIUM=1 -DARM_DYNAREC=1" >> $GITHUB_ENV
+            echo BOX64_COMPILER="aarch64-linux-gnu-gcc" >> $GITHUB_ENV
+            sudo apt-get update
+            sudo apt-get -y install git gcc-aarch64-linux-gnu cmake make python3
+          elif [[ "${{ github.event.inputs.platform }}" == "ADLINK" ]]; then
+            echo BOX64_PLATFORM_MARCRO="-DADLINK=1 -DARM_DYNAREC=1" >> $GITHUB_ENV
+            echo BOX64_COMPILER="aarch64-linux-gnu-gcc" >> $GITHUB_ENV
+            sudo apt-get update
+            sudo apt-get -y install git gcc-aarch64-linux-gnu cmake make python3
+          elif [[ "${{ github.event.inputs.platform }}" == "ANDROID_GLIBC" ]]; then
+            echo BOX64_PLATFORM_MARCRO="-DARM64=1 -DARM_DYNAREC=1 -DBAD_SIGNAL=1 -DNO_LIB_QUICK=1" >> $GITHUB_ENV
+            echo BOX64_COMPILER="aarch64-linux-gnu-gcc" >> $GITHUB_ENV
+            sudo apt-get update
+            sudo apt-get -y install git gcc-aarch64-linux-gnu cmake make python3
+          elif [[ "${{ github.event.inputs.platform }}" == "ANDROID" ]]; then
+            echo BOX64_PLATFORM_MARCRO="-DARM64=1 -DARM_DYNAREC=1 -DBAD_SIGNAL=1" >> $GITHUB_ENV
+            echo BOX64_COMPILER="aarch64-linux-gnu-gcc" >> $GITHUB_ENV
+            sudo apt-get update
+            sudo apt-get -y install git gcc-aarch64-linux-gnu cmake make python3
+          elif [[ "${{ github.event.inputs.platform }}" == "X64" ]]; then
+            echo BOX64_PLATFORM_MARCRO="-DLD80BITS=1 -DNOALIGN=1" >> $GITHUB_ENV
+            echo BOX64_COMPILER="gcc" >> $GITHUB_ENV
+            sudo apt-get update
+            sudo apt-get -y install git gcc cmake make python3
+          elif [[ "${{ github.event.inputs.platform }}" == "GENERIC_ARM" ]]; then
+            echo BOX64_PLATFORM_MARCRO="-DARM_DYNAREC=1" >> $GITHUB_ENV
+            echo BOX64_COMPILER="aarch64-linux-gnu-gcc" >> $GITHUB_ENV
+            sudo apt-get update
+            sudo apt-get -y install git gcc-aarch64-linux-gnu cmake make python3
+          elif [[ "${{ github.event.inputs.platform }}" == "LARCH64" ]]; then
+            echo BOX64_PLATFORM_MARCRO="-DLARCH64=1" >> $GITHUB_ENV
+            echo BOX64_COMPILER="loongarch64-linux-gnu-gcc" >> $GITHUB_ENV
+            sudo apt-get update
+            sudo apt-get -y install git gcc-loongarch64-linux-gnu cmake make python3
+          elif [[ "${{ github.event.inputs.platform }}" == "RV64" ]]; then
+            echo BOX64_PLATFORM_MARCRO="-DRV64=1" >> $GITHUB_ENV
+            echo BOX64_COMPILER="riscv64-linux-gnu-gcc" >> $GITHUB_ENV
+            sudo apt-get update
+            sudo apt-get -y install git gcc-riscv64-linux-gnu cmake make python3
+          fi
+      - name: Compiler information
+        run: ${{ env.BOX64_COMPILER }} -v
+      - name: Build
+        run: |
+          mkdir build
+          cd build
+          cmake .. ${{ env.BOX64_PLATFORM_MARCRO }} -DCMAKE_C_COMPILER=${{ env.BOX64_COMPILER }} -DCMAKE_BUILD_TYPE=RelWithDebInfo
+          make -j$(nproc)
+      - name: Rename build
+        run: mv ./build/box64 ./build/box64-${{ github.event.inputs.platform }}
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: box64-${{ github.event.inputs.platform }}
+          path: build/box64-${{ github.event.inputs.platform }}
+          
