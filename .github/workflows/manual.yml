@@ -74,6 +74,10 @@ jobs:
             echo "BOX64_PLATFORM_MARCRO=-DARM64=1 -DWINLATOR_GLIBC=1 -DARM_DYNAREC=1 -DBAD_SIGNAL=1" >> $GITHUB_ENV
             echo "BOX64_COMPILER=aarch64-linux-gnu-gcc" >> $GITHUB_ENV
             sudo apt-get -y install git gcc-aarch64-linux-gnu cmake make python3 patchelf
+          elif [[ ${{ github.event.inputs.platform }} == 'ANDROID' ]]; then
+            echo "BOX64_PLATFORM_MARCRO=-DANDROID=1" >> $GITHUB_ENV
+            echo "BOX64_COMPILER=aarch64-linux-gnu-gcc" >> $GITHUB_ENV
+            sudo apt-get -y install git gcc-aarch64-linux-gnu cmake make python3
           elif [[ ${{ github.event. inputs.platform }} != 'X64' && ${{ github. event.inputs.platform }} != 'GENERIC_ARM' ]]; then
             echo "BOX64_PLATFORM_MARCRO=-D${{ github.event.inputs. platform }}=1" >> $GITHUB_ENV
             echo "BOX64_COMPILER=aarch64-linux-gnu-gcc" >> $GITHUB_ENV
