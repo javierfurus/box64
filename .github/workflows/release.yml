@@ -44,8 +44,6 @@ jobs:
             type: StaticBuild
           - platform: X64
             type: StaticBuild
-          - platform: ANDROID
-            type: Box32
           - platform: TERMUX
             type: Box32
           - platform: WOW64
@@ -440,6 +438,26 @@ jobs:
           patchelf --set-interpreter /data/data/com.winlator/files/imagefs/usr/lib/ld-linux-aarch64.so.1 ./box64
           tar --zstd -cf box64-latest.wcp box64 profile.json
 
+      - name: "Packaging WCP file for Winlator (ANDROID)"
+        if: matrix.platform == 'ANDROID' && matrix.type == 'Box32' && steps.early-exit.outcome == 'failure'
+        run: |
+          cd build
+          cat <<EOF > profile.json
+          {
+            "type": "Box64",
+            "versionName": "latest-${SHORT_COMMIT}",
+            "versionCode": 1,
+            "description": "Box64-latest-${SHORT_COMMIT}. Built from [https://github.com/ptitSeb/box64].",
+            "files": [
+              {
+                "source": "box64",
+                "target": "\${localbin}/box64"
+              }
+            ]
+          }
+          EOF
+          tar --zstd -cf box64-latest.wcp box64 profile.json
+
       - name: "Package Rat File for MiceWine"
         if: matrix.platform == 'ANDROID' && matrix.type != 'StaticBuild' && steps.early-exit.outcome == 'failure'
         run: |
@@ -461,7 +479,14 @@ jobs:
         if: matrix.platform == 'ANDROID_GLIBC' && matrix.type == 'Release' && steps.early-exit.outcome == 'failure'
         uses: actions/upload-artifact@v4
         with:
-          name: box64-latest-${{ matrix.type }}-wcp
+          name: box64-latest-ANDROID_GLIBC-${{ matrix.type }}-wcp
+          path: build/box64-latest.wcp
+
+      - name: "Upload WCP file (ANDROID Box32)"
+        if: matrix.platform == 'ANDROID' && matrix.type == 'Box32' && steps.early-exit.outcome == 'failure'
+        uses: actions/upload-artifact@v4
+        with:
+          name: box64-latest-ANDROID-${{ matrix.type }}-wcp
           path: build/box64-latest.wcp
 
       - name: "Upload Rat File"
