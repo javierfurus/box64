@@ -240,6 +240,8 @@ typedef struct jump_buff_x64_s {
 
 #ifdef ANDROID
 #ifndef __sigset64_t_defined
+// sigset64_t is used for 64-bit signal masks on Android
+// 16 unsigned longs = 16 * 64 bits = 1024 bits to store signal mask
 typedef struct {
     unsigned long __val[16];
 } sigset64_t;
